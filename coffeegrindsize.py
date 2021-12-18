@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #Import the required packages
 from tkinter import filedialog
 from tkinter import *
@@ -31,7 +32,7 @@ stop = pdb.set_trace
 def_display_advanced_options = False
 
 #Expert mode with all the options
-def_expert_mode = False
+def_expert_mode = True
 
 #Threshold to select reference dark pixel
 #def_reference_threshold = 0.1 #First version (too agressive)
@@ -56,7 +57,7 @@ def_pixel_scale = None
 def_max_cluster_axis = 100
 
 #Default value for the minimum surface of a cluster (pixels squared)
-def_min_surface = 5
+def_min_surface = 2
 
 #Default value for the minimum roundness of a cluster (no units)
 #Roundness is defined as the ratio of cluster to all pixels in the smallest circle that encompasses all pixels of a cluster
@@ -85,7 +86,7 @@ default_binsize = 0.1
 reference_objects_dict = {"Custom":None, "Canadian Quarter":23.81, "Canadian Dollar":26.5, "Canadian Dime":18.03, "Canadian Two Dollars":28.0, "Canadian Five Cents":21.3, "US Quarter":24.26, "US Dollar":26.92, "US Dime":17.91, "US Penny":19.05, "2 Euros":25.75, "1 Euro":23.25, "50 Euro Cents":24.25, "20 Euro Cents":22.25}
 
 #Default output directory
-def_output_dir = os.path.expanduser("~")
+def_output_dir = os.path.expanduser("~/.grinds")
 
 #Python class for comparison data
 class Comparison:
@@ -253,6 +254,8 @@ class coffeegrindsize_GUI:
 		#Physical size of one pixel in the coffee grounds picture
 		#For now this needs to be input manually
 		self.pixel_scale_var = self.label_entry(def_pixel_scale, "Pixel Scale:", "pix/mm", clear_on_click=True, event_on_entry="update_statistics")
+		
+		self.reference_object.set("2 Euros")
 		
 		#self.label_separator()
 		
@@ -1817,7 +1820,7 @@ class coffeegrindsize_GUI:
 		#Do not delete
 		#Invoke a file dialog to select image
 		#image_filename = "/Users/gagne/Documents/Postdoc/Coffee_Stuff/Grind_Size/Forte_half_seasoned/forte_3y_mid.png"
-		image_filename = filedialog.askopenfilename(initialdir=self.output_dir,title="Select a PNG image",filetypes=(("png files","*.png"),("jpeg files","*.jpg"),("jpeg files","*.jpeg"),("all files","*.*")))
+		image_filename = filedialog.askopenfilename(initialdir=self.output_dir,title="Select a PNG image",filetypes=(("jpeg files","*.jpg"),("png files","*.png"),("jpeg files","*.jpeg"),("all files","*.*")))
 		
 		# === Display image if filename is set ===
 		# Hitting cancel in the filedialog will therefore skip the following steps
@@ -1855,6 +1858,10 @@ class coffeegrindsize_GUI:
 			
 			#Refresh the user interface status
 			self.status_var.set("Image opened: "+image_filename)
+			
+			session_name = os.path.splitext(os.path.basename(image_filename))[0]
+			self.session_name_var.set(session_name)
+			self.data_label_var.set(session_name.replace('_', ' '))
 			
 			#Refresh the state of the user interface window
 			self.master.update()
@@ -3053,6 +3060,8 @@ class coffeegrindsize_GUI:
 		if self.img_histogram is not None:
 			self.create_histogram(None)
 		
+		comparison_name = os.path.basename(csv_data_filename).replace('_data.csv', '').replace('_', ' ')
+		self.comparison_data_label_var.set(comparison_name)
 		#Update the user interface status
 		self.status_var.set("Comparison Data Loaded into Memory...")
 	
