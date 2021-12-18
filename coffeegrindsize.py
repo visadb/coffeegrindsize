@@ -687,22 +687,22 @@ class coffeegrindsize_GUI:
 		#self.image_canvas.bind("<B2-Motion>", self.line_move)
 		
 		#Set up key bindings for zooming in and out with the i/o keys
-		self.image_canvas.bind_all("<Command-i>", self.zoom_in)
-		self.image_canvas.bind_all("<Command-o>", self.zoom_out
+		self.image_canvas.bind_all("<Control-i>", self.zoom_in)
+		self.image_canvas.bind_all("<Control-o>", self.zoom_out
 			)
 		
 		#Various shortcuts
-		self.master.bind_all("<Command-m>", self.open_image)
-		self.master.bind_all("<Command-r>", self.select_reference_object_mouse)
-		self.master.bind_all("<Command-a>", self.select_region)
-		self.master.bind_all("<Command-t>", self.threshold_image)
-		self.master.bind_all("<Command-p>", self.launch_psd)
-		self.master.bind_all("<Command-h>", self.create_histogram)
-		self.master.bind_all("<Command-s>", self.save_data)
-		self.master.bind_all("<Command-l>", self.load_data)
+		self.master.bind_all("<Control-m>", self.open_image)
+		self.master.bind_all("<Control-r>", self.select_reference_object_mouse)
+		self.master.bind_all("<Control-a>", self.select_region)
+		self.master.bind_all("<Control-t>", self.threshold_image)
+		self.master.bind_all("<Control-p>", self.launch_psd)
+		self.master.bind_all("<Control-h>", self.create_histogram)
+		self.master.bind_all("<Control-s>", self.save_data)
+		self.master.bind_all("<Control-l>", self.load_data)
 		self.master.bind_all("<Control-c>", self.load_comparison_data)
 		self.master.bind_all("<Control-v>", self.save_histogram)
-		self.master.bind_all("<Command-e>", lambda event: self.toggle_expert_mode())
+		self.master.bind_all("<Control-e>", lambda event: self.toggle_expert_mode())
 		
 		#Set up key binding for data analysis selection quit
 		self.image_canvas.bind_all("<Escape>", self.quit_region_select)
